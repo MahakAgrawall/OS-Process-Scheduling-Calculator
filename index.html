@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Process Scheduling Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="input-section">
+      <h2>Input</h2>
+
+      <label for="algorithm">Algorithm</label>
+      <select id="algorithm">
+        <option value="RR">Round Robin</option>
+        <option value="Priority-NP">Priority (Non-Preemptive)</option>
+        <option value="Priority-P">Priority (Preemptive)</option>
+      </select>
+
+      <label for="arrival-times">Arrival Times</label>
+      <input type="text" id="arrival-times" placeholder="e.g. 0 1 2 3" />
+
+      <label for="burst-times">Burst Times</label>
+      <input type="text" id="burst-times" placeholder="e.g. 5 4 2 1" />
+
+      <div id="priority-section">
+        <label for="priority-times">Priorities</label>
+        <input type="text" id="priority-times" placeholder="e.g. 3 1 4 2" />
+      </div>
+
+      <div id="quantum-section">
+        <label for="quantum">Quantum (for RR)</label>
+        <input type="number" id="quantum" placeholder="e.g. 2" />
+      </div>
+
+      <button id="solve-btn">Solve</button>
+    </div>
+
+    <div class="output-section">
+      <h2>Output</h2>
+      <div id="gantt-chart"></div>
+      <table id="result-table">
+        <thead>
+          <tr>
+            <th>Process</th>
+            <th>Arrival</th>
+            <th>Burst</th>
+            <th>Priority</th>
+            <th>Waiting</th>
+            <th>Turnaround</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const algorithm = document.getElementById("algorithm");
+      const prioritySection = document.getElementById("priority-section");
+      const quantumSection = document.getElementById("quantum-section");
+
+      function updateInputVisibility() {
+        const selected = algorithm.value;
+        if (selected === "RR") {
+          quantumSection.style.display = "block";
+          prioritySection.style.display = "none";
+        } else if (selected.startsWith("Priority")) {
+          quantumSection.style.display = "none";
+          prioritySection.style.display = "block";
+        }
+      }
+
+      algorithm.addEventListener("change", updateInputVisibility);
+      updateInputVisibility(); // Call on page load to set initial state
+    });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
